@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: pinger
+  labels:
+    app: pinger
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: pinger
+  template:
+    metadata:
+      labels:
+        app: pinger
+    spec:
+      containers:
+      - name: pinger
+        args:
+        - --project=my-project
+        - --location=us-central1
+        - --pod=$(MY_POD_NAME)
+        - --ip=10.0.0.1
+        env:
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        image: sckmkny/pinger:0.1.1
+        resources:
+          requests:
+            cpu: 100m 
+            memory: 1Gi
+          limits:
+            cpu: 100m
+            memory: 1Gi
+      serviceAccountName: pinger
+

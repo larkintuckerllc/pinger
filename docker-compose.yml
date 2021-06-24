@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  pinger:
+    command:
+    - --project=gke-xpn-1
+    - --location=us-central1
+    - --pod=docker
+    - --ip=172.217.11.14
+    - --ip=151.101.185.67
+    build: .
+    volumes:
+      - $HOME/.config/gcloud:/root/.config/gcloud
+
